@@ -9,7 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 */
 :host {
-  font-family: 'Roboto', 'Noto', sans-serif;
+  font-family: 'Lato', 'Roboto', 'Noto', sans-serif;
   @apply(--layout-fit);
   @apply(--layout);
   @apply(--layout-vertical);
@@ -104,7 +104,7 @@ paper-toolbar a:hover, paper-toolbar a:hover iron-icon, paper-toolbar a.iron-sel
 
 #active {
   font-size: 20px;
-  font-family: Roboto, Noto;
+  font-family: 'Lato', 'Roboto', 'Noto';
   border: 0;
   background: transparent;
 }
