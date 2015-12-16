@@ -16,19 +16,22 @@ task :update do
     file_name = dir.gsub(/app\/assets\/components\//, '')
     # split the file name in the part before and the parts after the first /
     parts = file_name.split('/', 2)
-    # construct the raw github uri
-    remote = "https://raw.githubusercontent.com/PolymerElements/#{parts.first}/master/#{parts.last}"
-    begin
-      contents = open(remote).read
-      # did we get any content for the file?
-      if contents
-        # we apparentily did, so write it to the file
-        File.open("app/assets/components/#{file_name}", 'wb') do |fo|
-          fo.write contents
+    # do we have a .rake_ignore file? If so, ignore this dir
+    unless File.exists? "app/assets/components/#{parts.first}/.rake_ignore"
+      # construct the raw github uri
+      remote = "https://raw.githubusercontent.com/PolymerElements/#{parts.first}/master/#{parts.last}"
+      begin
+        contents = open(remote).read
+        # did we get any content for the file?
+        if contents
+          # we apparentily did, so write it to the file
+          File.open("app/assets/components/#{file_name}", 'wb') do |fo|
+            fo.write contents
+          end
         end
+      rescue => e
+        puts "File not found: #{remote}"
       end
-    rescue => e
-      puts "File not found: #{remote}"
     end
   end
 end
@@ -66,21 +69,6 @@ task :update_imports do
             puts "!!!!! try to download this yourself: #{parts.first}/#{import}"
           end
         end
-      end
-    end
-  end
-end
-
-task :foo do
-  file_name = 'paper-dialog/paper-dialog.html'
-  parts = file_name.rpartition '/'
-  File.open("app/assets/components/#{file_name}", 'r') do |fo|
-    imports = fo.read.scan(/<link rel="import" href="(.+)">/).flatten
-    puts importsputs ""
-    imports.reject{ |n| n.end_with? '/polymer/polymer.html' }.each do |import|
-      unless File.exists? "app/assets/components/#{parts.first}/#{import}"
-        puts "Does not exist: app/assets/components/#{parts.first}/#{import}"
-        puts "\t referenced by: #{file_name}"
       end
     end
   end
