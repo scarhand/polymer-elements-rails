@@ -51,7 +51,7 @@ that represents a header by adding a `paper-header` class to it.
 
 ```html
 <paper-scroll-header-panel>
-  <paper-toolbar>Header</paper-toolbar>
+  <div class="paper-header">Header</div>
   <div>Content goes here...</div>
 </paper-scroll-header-panel>
 ```
@@ -460,20 +460,21 @@ Custom property | Description | Default
     },
 
     _setup: function() {
+      var ctx = Polymer.PaperScrollHeaderPanel;
       var s = this.scroller.style;
 
       s.paddingTop = this.fixed ? '' : this.headerHeight + 'px';
       s.top = this.fixed ? this.headerHeight + 'px' : '';
 
       if (this.fixed) {
-        this._setHeaderState(this.HEADER_STATE_EXPANDED);
+        this._setHeaderState(ctx.HEADER_STATE_EXPANDED);
         this._transformHeader(null);
       } else {
         switch (this.headerState) {
-          case this.HEADER_STATE_HIDDEN:
+          case ctx.HEADER_STATE_HIDDEN:
             this._transformHeader(this._headerMaxDelta);
             break;
-          case this.HEADER_STATE_CONDENSED:
+          case ctx.HEADER_STATE_CONDENSED:
             this._transformHeader(this._headerMargin);
             break;
         }
@@ -544,7 +545,7 @@ Custom property | Description | Default
       var y = Math.max(0, (this.noReveal) ? scrollTop : this._y + deltaScrollTop);
 
       if (y > this._headerMaxDelta) {
-        y = this._headerMaxDelta + 1;
+        y = this._headerMaxDelta;
 
         if (this.keepCondensedHeader) {
           this._setHeaderState(ctx.HEADER_STATE_CONDENSED);
